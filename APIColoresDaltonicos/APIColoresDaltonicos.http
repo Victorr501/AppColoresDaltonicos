@@ -1,0 +1,6 @@
+@APIColoresDaltonicos_HostAddress = http://localhost:5118
+
+GET {{APIColoresDaltonicos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

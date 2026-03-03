@@ -1,3 +1,9 @@
 <Solution>
-  <Project Path="AppColoresDaltonicos/AppColoresDaltonicos.csproj" />
+  <Project Path="APIColoresDaltonicos.Models/APIColoresDaltonicos.Models.csproj" Id="add558e7-e54e-4808-ae22-1212e1237b4f" />
+  <Project Path="APIColoresDaltonicos.Repositories/APIColoresDaltonicos.Repositories.csproj" Id="9c67fe6d-de27-43a9-b6c8-4f1553aa4fa0" />
+  <Project Path="APIColoresDaltonicos.Services/APIColoresDaltonicos.Services.csproj" Id="9ff87843-ed1d-4473-bb5c-cae299adf0b2" />
+  <Project Path="APIColoresDaltonicos/APIColoresDaltonicos.csproj" Id="dea966b4-51ec-4fc5-8ba7-cf041b6ff602" />
+  <Project Path="AppColoresDaltonicos/AppColoresDaltonicos.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>
