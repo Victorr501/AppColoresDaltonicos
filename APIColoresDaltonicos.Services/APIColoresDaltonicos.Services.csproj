@@ -11,4 +11,12 @@
     <ProjectReference Include="..\APIColoresDaltonicos.Repositories\APIColoresDaltonicos.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Encriptar\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.1.0" />
+  </ItemGroup>
+
 </Project>

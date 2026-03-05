@@ -1,14 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using APIColoresDaltonicos.Repositories;
+using APIColoresDaltonicos.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+// Metodos ya creados
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+// Metodos creados por mi
+builder.Services.ConfigurarBaseDatos(builder.Configuration);
+builder.Services.CofigurarDependencias();
 
 var app = builder.Build();
 
@@ -18,10 +22,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// Metodos creados por mi
+app.AplicarMigraciones();
+
+// Metodos ya creados
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

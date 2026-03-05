@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using APIColoresDaltonicos.Models.Usuarios;
 
-namespace APIColoresDaltonicos.Models
+namespace APIColoresDaltonicos.Models.ConfiguracionDaltonismos
 {
     public class ConfiguracionDaltonismo
     {
@@ -17,3 +15,5 @@ namespace APIColoresDaltonicos.Models
         public Usuario? Usuario { get; set; }
     }
 }
+
+

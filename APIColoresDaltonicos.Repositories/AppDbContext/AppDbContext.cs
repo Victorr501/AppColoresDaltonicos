@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using APIColoresDaltonicos.Models;
+using APIColoresDaltonicos.Models.ConfiguracionDaltonismos;
+using APIColoresDaltonicos.Models.Usuarios;
 using Microsoft.EntityFrameworkCore;
 
 namespace APIColoresDaltonicos.Repositories
