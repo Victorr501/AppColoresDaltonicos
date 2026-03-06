@@ -5,6 +5,7 @@ using APIColoresDaltonicos.Models.Usuarios;
 using Microsoft.Extensions.Logging;
 using APIColoresDaltonicos.Services.Excepcion;
 using AutoMapper;
+using APIColoresDaltonicos.Services.Encriptar;
 
 namespace APIColoresDaltonicos.Services.Services.Usuarios
 {
@@ -12,11 +13,13 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
+        private readonly IEncriptacionService _encriptacionService;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, ILogger<UsuarioService> logger, IMapper mapper) : base(usuarioRepository, logger)
+        public UsuarioService(IUsuarioRepository usuarioRepository, ILogger<UsuarioService> logger, IEncriptacionService encriptacionService, IMapper mapper) : base(usuarioRepository, logger)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
+            _encriptacionService = encriptacionService;
         }
 
         public async Task<UsuarioResponseDto> ObtenerUsuarioSeguroPorIdAsync(int id)
@@ -44,9 +47,8 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
                 throw new CredencialesInvalidasException("El email ya esta en uso");
             }
 
-            // Aqui se ecriptara la contraseña antes de guardarla
-            //    
-            // =======================================
+            
+            nuevoUsuario.PasswordHash = _encriptacionService.HashPassword(nuevoUsuario.PasswordHash);
 
             _logger.LogInformation("Registro nuevo usuario...");
             await base.AñadirAsync(nuevoUsuario);
@@ -66,8 +68,8 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
                 throw new CredencialesInvalidasException("El correo o la contraseña son incorrectos");
             }
 
-            // Comprobar si las credenciales coinciden
-            var coinciden = true;
+            
+            var coinciden = _encriptacionService.VerifyPassword(password, usuario.PasswordHash);
 
             if (!coinciden)
             {
@@ -118,16 +120,16 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
                 throw new UsuarioNoEncontradoException("Usuario no encontrado");
             }
 
-            // Comprobar si la contraseña actual es correcta
-            var contraseñaCorrecta = true;
+            
+            var contraseñaCorrecta = _encriptacionService.VerifyPassword(password, usuario.PasswordHash);
             if (!contraseñaCorrecta)
             {
                 _logger.LogWarning("Actualización de contraseña fallida: Contraseña actual incorrecta para el usuario ID: {Id}", id);
                 throw new CredencialesInvalidasException("La contraseña actual es incorrecta");
             }
 
-            // Aqui se ecriptara la nueva contraseña antes de guardarla
-
+            
+            usuario.PasswordHash = _encriptacionService.HashPassword(passwordNueva);
 
             await base.ActualizarAsync(usuario);
             _logger.LogInformation("Contraseña actualizada exitosamente para el usuario ID: {Id}", id);

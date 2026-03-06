@@ -12,6 +12,9 @@ namespace APIColoresDaltonicos.Services.Mappings
         public UsuarioProfile() 
         {
             CreateMap<Usuario, UsuarioResponseDto>();
+            CreateMap<RegistroUsuarioDto, Usuario>()
+                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\APIColoresDaltonicos.Services\APIColoresDaltonicos.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\GenericControler\" />
+  </ItemGroup>
+
 </Project>
