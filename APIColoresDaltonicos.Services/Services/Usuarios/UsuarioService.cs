@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using APIColoresDaltonicos.Services.Excepcion;
 using AutoMapper;
 using APIColoresDaltonicos.Services.Encriptar;
+using APIColoresDaltonicos.Models.Auth.DTOs;
+using APIColoresDaltonicos.Services.Token;
 
 namespace APIColoresDaltonicos.Services.Services.Usuarios
 {
@@ -14,12 +16,14 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
         private readonly IEncriptacionService _encriptacionService;
+        private readonly ITokenService _tokenService;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, ILogger<UsuarioService> logger, IEncriptacionService encriptacionService, IMapper mapper) : base(usuarioRepository, logger)
+        public UsuarioService(IUsuarioRepository usuarioRepository, ILogger<UsuarioService> logger, IEncriptacionService encriptacionService, ITokenService tokenService, IMapper mapper) : base(usuarioRepository, logger)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
             _encriptacionService = encriptacionService;
+            _tokenService = tokenService;
         }
 
         public async Task<UsuarioResponseDto> ObtenerUsuarioSeguroPorIdAsync(int id)
@@ -36,7 +40,7 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
             return _mapper.Map<UsuarioResponseDto>(usuario);
         }
 
-        public async Task<UsuarioResponseDto> RegistrarUsuarioAsync(Usuario nuevoUsuario)
+        public async Task<AuthResponseDto> RegistrarUsuarioAsync(Usuario nuevoUsuario)
         {
             _logger.LogInformation("Registrando nuevo usuario con email: {Email}", nuevoUsuario.Email);
             var usuarioExistente = await _usuarioRepository.ObtenerPorEmailAsync(nuevoUsuario.Email);
@@ -53,10 +57,13 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
             _logger.LogInformation("Registro nuevo usuario...");
             await base.AñadirAsync(nuevoUsuario);
 
-            return _mapper.Map<UsuarioResponseDto>(nuevoUsuario);
+            var usuarioLimpio = _mapper.Map<UsuarioResponseDto>(nuevoUsuario);
+            var token = _tokenService.CrearToken(nuevoUsuario);
+
+            return new AuthResponseDto { Usuario = usuarioLimpio, Token = token };
         }
 
-        public async Task<UsuarioResponseDto> LoginAsync(string email, string password)
+        public async Task<AuthResponseDto> LoginAsync(string email, string password)
         {
             _logger.LogInformation("Intento de login para email: {email}", email);
 
@@ -78,7 +85,11 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
             }
 
             _logger.LogInformation("Login exitoso para el usuario {email}", email);
-            return _mapper.Map<UsuarioResponseDto>(usuario);
+            var usuarioLimpio = _mapper.Map<UsuarioResponseDto>(usuario);
+
+            var token = _tokenService.CrearToken(usuario);
+
+            return new AuthResponseDto {Usuario = usuarioLimpio, Token = token};
         }
 
         public async Task<UsuarioResponseDto> ActualizarPerfilAsync(UsuarioResponseDto actualizarUsuario)

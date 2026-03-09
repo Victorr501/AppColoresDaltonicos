@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using APIColoresDaltonicos.Repositories;
+using Microsoft.Data.SqlClient;
 
 namespace APIColoresDaltonicos.Extensions
 {
@@ -25,8 +26,14 @@ namespace APIColoresDaltonicos.Extensions
 
         public static IServiceCollection ConfigurarBaseDatos(this IServiceCollection services, IConfiguration configuration)
         {
+
+            var connectionStringTemplate = configuration.GetConnectionString("DefaultConnection");
+            var dbPassword = configuration["DB_PASSWORD"];
+            var connectionStringFinal = string.Format(connectionStringTemplate, dbPassword);
+
+
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connectionStringFinal));
             
             return services;
         }

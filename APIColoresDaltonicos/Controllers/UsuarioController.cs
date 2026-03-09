@@ -4,12 +4,14 @@ using APIColoresDaltonicos.Models.Usuarios;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using APIColoresDaltonicos.Services.Excepcion;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIColoresDaltonicos.Controllers
 {
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
 
@@ -24,6 +26,7 @@ namespace APIColoresDaltonicos.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         [HttpPost("registrar")]
         public async Task<IActionResult> Registrar([FromBody] RegistroUsuarioDto peticion)
         {
@@ -41,6 +44,7 @@ namespace APIColoresDaltonicos.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto login)
         {
