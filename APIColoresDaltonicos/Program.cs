@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigurarBaseDatos(builder.Configuration);
 builder.Services.CofigurarDependencias();
 builder.Services.ConfigurarSeguridad(builder.Configuration);
+builder.Services.AñadirSwagger();
 
 var app = builder.Build();
 
