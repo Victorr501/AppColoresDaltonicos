@@ -8,6 +8,7 @@ using AutoMapper;
 using APIColoresDaltonicos.Services.Encriptar;
 using APIColoresDaltonicos.Models.Auth.DTOs;
 using APIColoresDaltonicos.Services.Token;
+using APIColoresDaltonicos.Repositories.Repositories.ConfiguracionDaltonismos;
 
 namespace APIColoresDaltonicos.Services.Services.Usuarios
 {
@@ -17,13 +18,15 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
         private readonly IMapper _mapper;
         private readonly IEncriptacionService _encriptacionService;
         private readonly ITokenService _tokenService;
+        private readonly IConfiguracionDaltonismoRepository _configuracionDaltonismoRepository;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, ILogger<UsuarioService> logger, IEncriptacionService encriptacionService, ITokenService tokenService, IMapper mapper) : base(usuarioRepository, logger)
+        public UsuarioService(IUsuarioRepository usuarioRepository, ILogger<UsuarioService> logger, IEncriptacionService encriptacionService, ITokenService tokenService,IConfiguracionDaltonismoRepository configuracionDaltonismoRepository, IMapper mapper) : base(usuarioRepository, logger)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
             _encriptacionService = encriptacionService;
             _tokenService = tokenService;
+            _configuracionDaltonismoRepository = configuracionDaltonismoRepository;
         }
 
         public async Task<UsuarioResponseDto> ObtenerUsuarioSeguroPorIdAsync(int id)
@@ -144,6 +147,27 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
 
             await base.ActualizarAsync(usuario);
             _logger.LogInformation("Contraseña actualizada exitosamente para el usuario ID: {Id}", id);
+        }
+
+        public async Task BorrarAsync(int id)
+        {
+            var usuario = await _usuarioRepository.ObtenerPorIdAsync(id);
+            if(usuario == null)
+            {
+                _logger.LogWarning("Usuario con id: {id} no encontrado", id);
+                throw new UsuarioNoEncontradoException($"Usuario con id: {id} no encontrado");
+            }
+
+            var configuracion = await _configuracionDaltonismoRepository.ObtenerConfiguracionPorUsuarioIdAsync(id);
+
+            if (configuracion != null)
+            {
+                await _configuracionDaltonismoRepository.BorrarAsync(configuracion);
+            }
+
+            await _usuarioRepository.BorrarAsync(usuario);
+
+            await _usuarioRepository.GuardarCambiosAsync();
         }
     }
 }

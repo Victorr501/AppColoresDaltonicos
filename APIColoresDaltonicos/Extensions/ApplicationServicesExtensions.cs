@@ -5,18 +5,18 @@ using APIColoresDaltonicos.Services.Encriptar;
 using APIColoresDaltonicos.Services.Mappings;
 using APIColoresDaltonicos.Services.Services.Generic;
 using APIColoresDaltonicos.Services.Services.Usuarios;
+using APIColoresDaltonicos.Services.Services.ConfiguracionDaltonismos;
 using APIColoresDaltonicos.Services.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
 using System.Text;
 
 namespace APIColoresDaltonicos.Extensions
 {
-    // 1. CREAMOS NUESTRA PROPIA REGLA PARA SWAGGER (EL FILTRO)
+    // La regla para pedir el token
     public class AuthHeaderFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -29,7 +29,7 @@ namespace APIColoresDaltonicos.Extensions
             if (operation.Parameters == null)
                 operation.Parameters = new List<IOpenApiParameter>();
 
-            // Añadimos la cajita de "Authorization" a mano en cada ruta
+            
             operation.Parameters.Add(new OpenApiParameter
             {
                 Name = "Authorization",
@@ -57,9 +57,14 @@ namespace APIColoresDaltonicos.Extensions
             // Servicios
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IConfiguracionDaltonismoService, ConfiguracionDaltonismoService>();
 
             // Registramos el mapper
-            services.AddAutoMapper(cfg => cfg.AddProfile<UsuarioProfile>());
+            services.AddAutoMapper(cfg => 
+            {
+                cfg.AddProfile<UsuarioProfile>();
+                cfg.AddProfile<ConfiguracionDaltonismoProfile>();
+            });
 
             // Registramos los servicios de encriptación y token
             services.AddScoped<IEncriptacionService, EncriptacionService>();

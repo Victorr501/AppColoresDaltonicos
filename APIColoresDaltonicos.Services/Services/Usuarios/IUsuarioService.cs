@@ -12,5 +12,6 @@ namespace APIColoresDaltonicos.Services.Services.Usuarios
         Task<UsuarioResponseDto> ObtenerUsuarioSeguroPorIdAsync(int id);
         Task<UsuarioResponseDto> ActualizarPerfilAsync(UsuarioResponseDto usaurioActualizar);
         Task ActualizarPasswordAsync(int id, string password, string passwordNueva);
+        Task BorrarAsync(int id);
     }
 }

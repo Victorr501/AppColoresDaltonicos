@@ -17,13 +17,11 @@ namespace APIColoresDaltonicos.Controllers
 
         private readonly IUsuarioService _usuarioService;
         private readonly IMapper _mapper;
-        private readonly ILogger<UsuarioController> _logger;
 
-        public UsuarioController(IUsuarioService usuarioService, IMapper mapper, ILogger<UsuarioController> logger)
+        public UsuarioController(IUsuarioService usuarioService, IMapper mapper)
         {
             _usuarioService = usuarioService;
             _mapper = mapper;
-            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -115,18 +113,12 @@ namespace APIColoresDaltonicos.Controllers
         {
             try
             {
-                var usuario = await _usuarioService.ObtenerPorIdAsync(id);
-                if (usuario == null)
-                {
-                    return NotFound();
-                }
-                await _usuarioService.BorrarAsync(usuario);
+                await _usuarioService.BorrarAsync(id);
                 return NoContent();
             }
-            catch (Exception ex)
+            catch (UsuarioNoEncontradoException ex)
             {
-                _logger.LogError(ex, "Error al borrar el usuario con ID {Id}", id);
-                return StatusCode(500, "Ocurrió un error al procesar la solicitud.");
+                return NotFound(new { mensaje = ex.Message });
             }
         }
     }
