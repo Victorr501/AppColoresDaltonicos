@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AppColoresDaltonicos.Extensions;
+using AppColoresDaltonicos.Services;
+using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace AppColoresDaltonicos
 {
@@ -15,10 +18,15 @@ namespace AppColoresDaltonicos
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            builder.ConfigureApiServices();
 
+            #if DEBUG
+            builder.Logging.AddDebug();
+            #endif
+
+            var assembly = Assembly.GetExecutingAssembly();
+            
+            
             return builder.Build();
         }
     }
