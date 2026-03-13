@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.IdentityModel.Tokens.Jwt;
 
 namespace AppColoresDaltonicos.Services.Auth
 {
@@ -22,5 +20,34 @@ namespace AppColoresDaltonicos.Services.Auth
         {
             SecureStorage.Default.Remove(TokenKey);
         }
+
+        public async Task<bool> IsTokenValidateAsync()
+        {
+            var token = await ObtenerTokenAsync();
+            if (string.IsNullOrEmpty(token))
+                return false;
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+
+                if (jwtToken.ValidTo > DateTime.UtcNow)
+                {
+                    return true;
+                }
+                else
+                {
+                    EliminarToken();
+                    return false;
+                }
+            }
+            catch
+            {
+                EliminarToken();
+                return false;
+            }
+        }
+
     }
 }

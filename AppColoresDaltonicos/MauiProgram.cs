@@ -18,7 +18,7 @@ namespace AppColoresDaltonicos
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.ConfigureApiServices();
+            builder.ConfigureApiServices().AddService();
 
             #if DEBUG
             builder.Logging.AddDebug();

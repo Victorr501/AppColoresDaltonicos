@@ -8,7 +8,7 @@ namespace AppColoresDaltonicos.Services.Auth
     {
         Task GuardarTokenAsync(string token);
         Task<string?> ObtenerTokenAsync();
-
         void EliminarToken();
+        Task<bool> IsTokenValidateAsync();
     }
 }

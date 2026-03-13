@@ -1,17 +1,32 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AppColoresDaltonicos.Services.Auth;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AppColoresDaltonicos
 {
     public partial class App : Application
     {
-        public App()
+        private readonly IAuthService _authService;
+        public App(IAuthService authService)
         {
             InitializeComponent();
+            _authService = authService;
+
+            MainPage = new ContentPage { Title = "Cargando...."};
         }
 
-        protected override Window CreateWindow(IActivationState? activationState)
+
+        protected override async void OnStart()
         {
-            return new Window(new AppShell());
+            base.OnStart();
+            var isAuthenticated = await _authService.IsTokenValidateAsync();
+            if (isAuthenticated)
+            {
+                MainPage = new NavigationPage();
+            }
+            else
+            {
+                
+            }
         }
     }
 }
