@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppColoresDaltonicos.Views.LoginPage"
+             Title="Iniciar Sesión">
+    
+    <VerticalStackLayout Spacing="25" Padding="30" VerticalOptions="Center">
+        <Label Text="!Bienvendio!"
+                FontSize="28"
+                Style="{StaticResource Headline}"
+                HorizontalOptions="Center" />
+
+        <Label Text="Introduzce tus crendeicales para acceder"
+               FontSize="14"
+               HorizontalTextAlignment="Center"
+               TextColor="{StaticResource Gray500}"
+               Margin="0,0,0,20"/>
+        
+        <Entry x:Name="EmailEntry"
+               Placeholder="Correo Electrónico"
+               Keyboard="Email"/>
+
+        <Entry x:Name="PasswordEntry"
+               Placeholder="Contraseña"
+               IsPassword="True"/>
+
+        <Button x:Name="LoginButton"
+                Text="Entrar"
+                Clicked="OnLoginClicked"/>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Margin="0,20,0,0">
+            <Label Text="¿No tienes cuenta?" TextColor="{StaticResource Gray500}"/>
+            <Label Text="Regístrare" TextColor="{StaticResource Primary}" FontAttributes="Bold">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnIrARegistroTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+
+        <ActivityIndicator x:Name="CargandoIndicator"
+                           IsRunning="False"
+                           IsVisible="False"
+                           HorizontalOptions="Center"
+                           Color="{StaticResource Primary}"/>
+
+    </VerticalStackLayout>
+</ContentPage>

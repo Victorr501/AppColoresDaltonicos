@@ -1,4 +1,5 @@
 ﻿using AppColoresDaltonicos.Services.Auth;
+using AppColoresDaltonicos.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AppColoresDaltonicos
@@ -21,11 +22,11 @@ namespace AppColoresDaltonicos
             var isAuthenticated = await _authService.IsTokenValidateAsync();
             if (isAuthenticated)
             {
-                MainPage = new NavigationPage();
+                MainPage = new AppShell();
             }
             else
             {
-                
+                MainPage = new NavigationPage(new LoginPage());
             }
         }
     }
