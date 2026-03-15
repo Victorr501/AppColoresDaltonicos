@@ -10,6 +10,6 @@ namespace APIColoresDaltonicos.Models.ConfiguracionDaltonismos.DTOs
         [Required(ErrorMessage = "El tipo de daltonismo es obligatoria")]
         public string TipoDaltonismo { get; set; }
         [Required(ErrorMessage = "La correcion de daltonismo es obligatoria")]
-        public bool Correccion { get; set; }
+        public int Correccion { get; set; }
     }
 }

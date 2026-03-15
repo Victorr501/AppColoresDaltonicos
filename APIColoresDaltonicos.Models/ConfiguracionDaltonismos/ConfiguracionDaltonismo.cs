@@ -11,7 +11,7 @@ namespace APIColoresDaltonicos.Models.ConfiguracionDaltonismos
         public string TipoDaltonismo { get; set; }
 
         // Es la intesidad de la corrección, un valor entre 0 y 100
-        public bool Correccion { get; set; }
+        public int Correccion { get; set; }
         public Usuario? Usuario { get; set; }
     }
 }

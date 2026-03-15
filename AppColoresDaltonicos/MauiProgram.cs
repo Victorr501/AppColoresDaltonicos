@@ -2,6 +2,7 @@
 using AppColoresDaltonicos.Services;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
+using CommunityToolkit.Maui;
 
 namespace AppColoresDaltonicos
 {
@@ -12,6 +13,7 @@ namespace AppColoresDaltonicos
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppColoresDaltonicos.Views.ConfiguracioVisualPage"
+             Title="Configura tu visión">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            
+            <Label Text="Ajuste Visual"
+                   Style="{StaticResource TitleStyle}"
+                   FontAttributes="Bold"/>
+
+            <Label Text="Observa la imagen y ajusta los controles hasta que los colores te resulten naturales"
+                   TextColor="{StaticResource Gray500}"
+                   HorizontalTextAlignment="Center"/>
+
+            <Image Source="dotnet_bot.png"
+                   HeightRequest="200"
+                   Aspect="AspectFill"
+                   Margin="0,10,0,10"/>
+
+            <Label Text="Tipo de afección:" FontAttributes="Bold"/>
+            <Picker x:Name="TipoDaltonismoPicker" Title="Selecciona tu tipo">
+                <Picker.Items>
+                    <x:String>Protanopia</x:String>
+                    <x:String>Deuteranopia</x:String>
+                    <x:String>Tricromacia</x:String>
+                    <x:String>Acromatopsia</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Intensidad de corrección:" FontAttributes="Bold" Margin="0,10,0,0"/>
+            <Slider x:Name="CorrecionSlider"
+                    Minimum="0"
+                    Maximum="100"
+                    Value="50"
+                    ValueChanged="OnSliderValueChanged"/>
+
+            <Label x:Name="PorcentajeLabe"
+                   Text="50%"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource Primary}"
+                   FontAttributes="Bold"/>
+
+            <Button x:Name="GaurdarButton"
+                    Text="Guardar y Continuar"
+                    Margin="0,10,0,0"
+                    Clicked="OnGuardarButtonClicked"/>
+
+            
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>

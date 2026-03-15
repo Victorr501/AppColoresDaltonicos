@@ -33,9 +33,5 @@
                 Text="Crear Cuenta"
                 Clicked="OnRegisterClicked"/>
 
-        <Button x:Name="CanclearButton"
-                Text="Cancelar"
-                Clicked="GoBack"/>
-
     </VerticalStackLayout>
 </ContentPage>
