@@ -8,6 +8,6 @@ namespace AppColoresDaltonicos.Models.Auht
     public class AuthResponseDto
     {
         public UsuarioResponseDto Usuario { get; set; }
-        public string Result { get; set; }
+        public string Token { get; set; }
     }
 }

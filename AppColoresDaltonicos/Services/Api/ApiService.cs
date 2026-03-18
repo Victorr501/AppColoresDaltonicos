@@ -9,9 +9,9 @@ namespace AppColoresDaltonicos.Services.Api
     public class ApiService : IApiService
     {
         private readonly HttpClient _httpClient;
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public ApiService(HttpClient httpClient, AuthService authService)
+        public ApiService(HttpClient httpClient, IAuthService authService)
         {
             _httpClient = httpClient;
             _authService = authService;

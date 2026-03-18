@@ -15,28 +15,17 @@
                    HorizontalTextAlignment="Center"/>
 
             <Grid HeightRequest="200" Margin="0,10,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Image Source="dotnet_bot.png"
+                <Image Source="fotosrealistacolores_normal.png"
+                       Aspect="AspectFill"/>
+                
+                <Image x:Name="FiltroImagenReal"
+                       Source="fotosrealistacolores_protanopia.png"
                        Aspect="AspectFill"
-                       Grid.ColumnSpan="2"/>
-
-                <BoxView x:Name="FiltroBoxView"
-                         Grid.Column="1"
-                         Color="Transparent"
-                         Opacity="0.5"/>
-
-                <BoxView Grid.ColumnSpan="2"
-                         WidthRequest="3"
-                         Color="White"
-                         HorizontalOptions="Center"/>
+                       Opacity="0.5"/>
             </Grid>
 
             <Label Text="Tipo de afección:" FontAttributes="Bold"/>
-            <Picker x:Name="TipoDaltonismoPicker" Title="Selecciona tu tipo" SelectedIndexChanged="OnTipoDaltonismoChanged">
+            <Picker x:Name="TipoDaltonismoPicker" Title="Selecciona tu tipo" SelectedIndexChanged="OnTipoDaltonismoChanged" SelectedIndex="0">
                 <Picker.Items>
                     <x:String>Protanopia</x:String>
                     <x:String>Deuteranopia</x:String>

@@ -10,7 +10,7 @@ namespace AppColoresDaltonicos.Extensions
         public static MauiAppBuilder ConfigureApiServices(this MauiAppBuilder builder)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            using var stream = assembly.GetManifestResourceStream("AppColoresDaltonicos.appsettings.json");
+            using var stream = assembly.GetManifestResourceStream("AppColoresDaltonicos.Properties.appsettings.json");
 
             if (stream != null)
             { 
@@ -23,7 +23,7 @@ namespace AppColoresDaltonicos.Extensions
 
             builder.Services.AddHttpClient<IApiService, ApiService>(client =>
             {
-                var baseUrl = builder.Configuration["ApiBaseUrl"];
+                var baseUrl = builder.Configuration["ApiConfig:BaseUrl"];
                 if (!string.IsNullOrEmpty(baseUrl))
                 {
                     client.BaseAddress = new Uri(baseUrl);

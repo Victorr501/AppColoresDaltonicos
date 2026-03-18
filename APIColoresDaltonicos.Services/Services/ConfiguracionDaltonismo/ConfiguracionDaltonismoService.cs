@@ -12,7 +12,7 @@ namespace APIColoresDaltonicos.Services.Services.ConfiguracionDaltonismos
     {
         private readonly IConfiguracionDaltonismoRepository _configuracionDaltonismoRepository;
         private readonly IMapper _mapper;
-        private readonly List<string> _tiposValidos = new List<string> { "protanopia", "deuteranopia", "tritanopia", "acromatopsia", "Ninguno" };
+        private readonly List<string> _tiposValidos = new List<string> { "protanopia", "deuteranopia", "tritanopia", "acromatopsia", "ninguno" };
 
         public ConfiguracionDaltonismoService(IConfiguracionDaltonismoRepository configuracionDaltonismoRepository,IMapper mapper, ILogger<ConfiguracionDaltonismoService> logger) : base(configuracionDaltonismoRepository, logger)
         {
@@ -36,11 +36,18 @@ namespace APIColoresDaltonicos.Services.Services.ConfiguracionDaltonismos
         public async Task<ConfiguracionDaltonismo> ActualizarConfiguracionUsuarioAsync(int usuarioId, ConfiguracionDaltonismoDto nuevaConfiguracion)
         {
             _logger.LogInformation("Actualizando configuración de daltonismo para usuario ID: {UsuarioId}", usuarioId);
-            if (!_tiposValidos.Contains(nuevaConfiguracion.TipoDaltonismo))
+            string tipoFormateado = nuevaConfiguracion.TipoDaltonismo?.ToLower() ?? "";
+            if (tipoFormateado == "tricromacia")
+            {
+                tipoFormateado = "tritanopia";
+            }
+            if (!_tiposValidos.Contains(tipoFormateado))
             {
                 _logger.LogWarning("Tipo de daltonismo inválido: {TipoDaltonismo}", nuevaConfiguracion.TipoDaltonismo);
                 throw new TipoDaltonismoInvalidoException($"El tipo de daltonismo '{nuevaConfiguracion.TipoDaltonismo}' no es válido. Tipos válidos: {string.Join(", ", _tiposValidos)}");
             }
+            nuevaConfiguracion.TipoDaltonismo = tipoFormateado;
+
             var configuracionExistente = await _configuracionDaltonismoRepository.ObtenerConfiguracionPorUsuarioIdAsync(usuarioId);
             if (configuracionExistente == null)
             {
@@ -49,9 +56,9 @@ namespace APIColoresDaltonicos.Services.Services.ConfiguracionDaltonismos
             }
 
             _mapper.Map(nuevaConfiguracion, configuracionExistente);
-
             await _configuracionDaltonismoRepository.ActualizarAsync(configuracionExistente);
             await _configuracionDaltonismoRepository.GuardarCambiosAsync();
+
             return configuracionExistente;
 
         }

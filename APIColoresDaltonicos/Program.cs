@@ -32,7 +32,7 @@ if (app.Environment.IsDevelopment())
 app.AplicarMigraciones();
 
 // Metodos ya creados
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

@@ -4,11 +4,23 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:AppColoresDaltonicos"
+    xmlns:views="clr-namespace:AppColoresDaltonicos.Views"
+    xmlns:dentro="clr-namespace:AppColoresDaltonicos.Views.DentroAppShell"
     Title="AppColoresDaltonicos">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:HomePage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Galeria" Icon="dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate dentro:GaleriaPage}" />
+        </Tab>
+        <Tab Title="Home" Icon="dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate dentro:HomePage}"/>
+        </Tab>
+        <Tab Title="Prueba" Icon="dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate dentro:PruebaDaltonismoPage}"/>
+        </Tab>
+        <Tab Title="Perfil" Icon="dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate dentro:PerfilPage}"/>
+        </Tab>
+    </TabBar>
 
 </Shell>

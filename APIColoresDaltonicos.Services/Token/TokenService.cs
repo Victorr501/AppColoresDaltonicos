@@ -25,7 +25,7 @@ namespace APIColoresDaltonicos.Services.Token
                 new Claim(JwtRegisteredClaimNames.NameId, usuario.Id.ToString())
             };
 
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

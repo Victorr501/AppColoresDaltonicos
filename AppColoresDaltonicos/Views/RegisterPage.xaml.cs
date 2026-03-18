@@ -1,4 +1,6 @@
 using AppColoresDaltonicos.Models.Auht;
+using AppColoresDaltonicos.Services.Api;
+using AppColoresDaltonicos.Services.Auth;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 
@@ -25,7 +27,7 @@ public partial class RegisterPage : ContentPage
 			return;
 		}
 
-		if (password == passwordAgain)
+		if (password != passwordAgain)
 		{
 			var toast = Toast.Make("Las contraseñas tiene que ser iguales", ToastDuration.Short, 14);
 			await toast.Show();
@@ -47,7 +49,11 @@ public partial class RegisterPage : ContentPage
 			Password = password,
 		};
 
-		await Navigation.PushAsync(new ConfiguracioVisualPage(nuevoUsuario));
+		var apiService = Application.Current.MainPage.Handler.MauiContext.Services.GetService<IApiService>();
+		var authService = Application.Current.MainPage.Handler.MauiContext.Services.GetService<IAuthService>();	
+
+
+		await Navigation.PushAsync(new ConfiguracioVisualPage(nuevoUsuario, apiService, authService));
 
     }
 
